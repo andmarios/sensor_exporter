@@ -31,6 +31,7 @@ import (
 	_ "github.com/andmarios/sensor_exporter/sensor_coretemp"
 	_ "github.com/andmarios/sensor_exporter/sensor_example"
 	_ "github.com/andmarios/sensor_exporter/sensor_hddtemp"
+	_ "github.com/andmarios/sensor_exporter/sensor_log"
 )
 
 type Scraper struct {
@@ -87,19 +88,28 @@ func main() {
 }
 
 func startSensor(s *Scraper) {
+	var start time.Time
+	var end time.Duration
 	go func() {
 		tick := time.Tick(s.Interval)
 		for {
 			select {
 			case <-tick:
+				start = time.Now()
 				value, err := s.Collector.Scrape()
 				if err != nil {
 					log.Printf("Could not scrape %s. Err: %s\n", s.Type, err)
 					continue
 				}
+				end = time.Since(start)
 				s.Mutex.Lock()
 				s.Value = value
 				s.Mutex.Unlock()
+				// If it took too long for the scrape to finish, report it.
+				if end > s.Interval {
+					sensor.Incident()
+					log.Printf("Sensor %s scrape took %s whilst its scrape interval is only %s\n", s.Type, end, s.Interval)
+				}
 			}
 		}
 	}()
