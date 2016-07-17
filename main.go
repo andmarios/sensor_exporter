@@ -63,12 +63,8 @@ func main() {
 		}
 		return
 	}
-	for k, v := range sensor.AvailableCollectors {
+	for k, _ := range sensor.AvailableCollectors {
 		log.Printf("Found sensor type %s\n", k)
-		for k2, _ := range v.Type {
-			supportTexts[v.Type[k2]] = true
-			supportTexts[v.Help[k2]] = true
-		}
 	}
 
 	for _, v := range flag.Args() {
@@ -148,6 +144,12 @@ func processArg(arg string) (*Scraper, error) {
 		if interval == 0 { // Assign our interval if all else failed
 			interval = defaultInterval
 		}
+		// Add sensors TYPE and HELP texts if needed to our supportTexts list
+		for k, _ := range sensor.AvailableCollectors[conf[0]].Type {
+			supportTexts[sensor.AvailableCollectors[conf[0]].Type[k]] = true
+			supportTexts[sensor.AvailableCollectors[conf[0]].Help[k]] = true
+		}
+
 	default:
 		return nil, errors.New("Could not create sensor")
 	}
