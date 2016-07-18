@@ -11,7 +11,7 @@ It is still work in progress.
 coretemp and hddtemp:
 
     go get github.com/andmarios/sensor_exporter
-	sensor_exporter coretemp hddtemp,,localhost:7634
+	sensor_exporter coretemp hddtemp
 
 To list available sensors:
 
@@ -32,11 +32,19 @@ connect to, etc.
 
 The `coretemp` sensor doesn't take any opts.
 
-The `hddtemp` sensor takes as opts the url to hddtemp daemon.
+The `hddtemp` sensor takes as opts the url to hddtemp daemon. If ommited it will
+default to `localhost:7634`. If the port is ommited, it will default to `7634`.
 
 The `upsc` sensor takes as opts a upsc string (UPSNAME@HOST, UPSNAME —if on
 localhost—, UPSNAME@HOST:PORT).
 
+A realistic usage example would be:
+
+    sensor_exporter log coretemp hddtemp,,localhost:7634 upsc,,MYUPS@localhost
+
+Which since we use default ports and localhost, could be shortened to:
+
+    sensor_exporter log coretemp hddtemp upsc,,MYUPS
 
 ## For developers
 

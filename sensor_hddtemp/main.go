@@ -55,9 +55,19 @@ type Sensor struct {
 }
 
 func NewSensor(opts string) (sensor.Collector, error) {
-	hostRe := regexp.MustCompile("^(.*):[^:]*$")
-	host := hostRe.FindStringSubmatch(opts)
-	s := Sensor{Url: opts, Host: host[1]}
+	var host string
+	hostArray := regexp.MustCompile("^(.*):[0-9]{1,5}$").FindStringSubmatch(opts)
+	if len(hostArray) == 0 && opts == "" {
+		log.Println("Hddtemp: using default url localhost:7634")
+		opts = "localhost:7634"
+		host = "localhost"
+	} else if len(hostArray) == 0 {
+		host = opts
+		opts = host + ":7634"
+	} else {
+		host = hostArray[1]
+	}
+	s := Sensor{Url: opts, Host: host}
 
 	conn, err := net.DialTimeout("tcp", s.Url, timeOut)
 	if err != nil {
