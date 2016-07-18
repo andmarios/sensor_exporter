@@ -46,7 +46,7 @@ var description = `Hddtemp reads and exposes disk temperatures from a hddtemp da
 is the URL of the daemon. Example setup with default scrape interval:
 
   sensor_exporter hddtemp,,localhost:7634`
-var timeOut = 5 * time.Second
+var timeOut = 3 * time.Second
 var re = regexp.MustCompile(`(\|[^\|]*){3,3}\|[CF*]`)
 
 type Sensor struct {
@@ -76,7 +76,8 @@ var (
 func (s Sensor) Scrape() (out string, e error) {
 	conn, err := net.DialTimeout("tcp", s.Url, timeOut)
 	if err != nil {
-		// return "", errors.New("Hddtemp: Failed to connect to remote " + s.Url)
+		sensor.Incident()
+		log.Printf("Hddtemp @ %s, failed to connect: %s\n", s.Url, err.Error())
 		return "", nil
 	}
 	defer conn.Close()

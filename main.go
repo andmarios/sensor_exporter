@@ -32,6 +32,7 @@ import (
 	_ "github.com/andmarios/sensor_exporter/sensor_example"
 	_ "github.com/andmarios/sensor_exporter/sensor_hddtemp"
 	_ "github.com/andmarios/sensor_exporter/sensor_log"
+	_ "github.com/andmarios/sensor_exporter/sensor_upsc"
 )
 
 type Scraper struct {
