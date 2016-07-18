@@ -116,6 +116,7 @@ func NewSensor(opts string) (sensor.Collector, error) {
 		labels = fmt.Sprintf("{ups=\"%s\",host=\"%s\"}", ups, hostParts[0])
 	case 1:
 		labels = fmt.Sprintf("{ups=\"%s\"}", conf[0])
+		ups = conf[0]
 		host = "localhost:3493"
 	default:
 		return nil, errors.New("Upsc, could not understand UPS URI. Empty or too many '@'?. Opts: " + opts)

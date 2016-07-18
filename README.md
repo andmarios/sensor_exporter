@@ -19,6 +19,25 @@ To list available sensors:
 
 ![grafana screenshot](https://raw.githubusercontent.com/andmarios/sensor_exporter/master/grafana.png)
 
+To set a sensor you have to specify a string like `sensor_name,interval,opts`.
+If you do not set an interval, the default will be used. If the sensor doesn't
+have any opts you can omit them.
+
+Current sensors are `log`, `coretemp`, `hddtemp`, `upsc`, `example`.
+
+The `log` sensors reports a counter of the serious incidents for the current run
+of sensor_exporter. If you see this counter increasing by a significant amount,
+check your logs. It may be a scrape that takes too long, a server that we can't
+connect to, etc.
+
+The `coretemp` sensor doesn't take any opts.
+
+The `hddtemp` sensor takes as opts the url to hddtemp daemon.
+
+The `upsc` sensor takes as opts a upsc string (UPSNAME@HOST, UPSNAME —if on
+localhost—, UPSNAME@HOST:PORT).
+
+
 ## For developers
 
 You can easily add your own sensor, please have a look at
