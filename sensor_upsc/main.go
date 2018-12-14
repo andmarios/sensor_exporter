@@ -71,14 +71,16 @@ type Sensor struct {
 // expose it. Please also add a TYPE and HELP entry.
 var (
 	upscVarFloat = map[string]string{
-		"battery.charge":  "upsc_battery_charge",
-		"battery.voltage": "upsc_battery_voltage",
-		"input.frequency": "upsc_input_frequency",
-		"input.voltage":   "upsc_input_voltage",
-		"input.current":   "upsc_input_current",
-		"output.voltage":  "upsc_output_voltage",
-		"ups.load":        "upsc_ups_load",
-		"ups.temperature": "upsc_ups_temperature",
+		"battery.charge":   "upsc_battery_charge",
+		"battery.voltage":  "upsc_battery_voltage",
+		"input.frequency":  "upsc_input_frequency",
+		"input.voltage":    "upsc_input_voltage",
+		"input.current":    "upsc_input_current",
+		"output.voltage":   "upsc_output_voltage",
+		"output.frequency": "upsc_output_frequency",
+		"output.current":   "upsc_output_current",
+		"ups.load":         "upsc_ups_load",
+		"ups.temperature":  "upsc_ups_temperature",
 	}
 	sensorsType = []string{
 		"# TYPE upsc_battery_charge gauge",
@@ -87,6 +89,8 @@ var (
 		"# TYPE upsc_input_voltage gauge",
 		"# TYPE upsc_input_current gauge",
 		"# TYPE upsc_output_voltage gauge",
+		"# TYPE upsc_output_frequency gauge",
+		"# TYPE upsc_output_currency gauge",
 		"# TYPE upsc_ups_load gauge",
 		"# TYPE upsc_ups_temperature gauge",
 	}
@@ -97,6 +101,8 @@ var (
 		"# HELP upsc_input_voltage Input voltage (V)",
 		"# HELP upsc_input_current Input current (A)",
 		"# HELP upsc_output_voltage Output voltage (V)",
+		"# HELP upsc_output_frequency Output frequency (Hz)",
+		"# HELP upsc_output_current Output current (A)",
 		"# HELP upsc_ups_load Load on UPS (percent)",
 		"# HELP upsc_ups_temperature UPS temperature (degrees C)",
 	}
