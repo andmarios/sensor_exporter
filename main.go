@@ -84,6 +84,15 @@ func main() {
 
 	log.Printf("Initialization succesful. Listening on :%s\n", *port)
 	http.HandleFunc("/metrics", metricsHandler)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`<html>
+			<head><title>Sensor Exporter</title></head>
+			<body>
+			<h1>Sensor Exporter</h1>
+			<p><a href="/metrics">Metrics</a></p>
+			</body>
+			</html>`))
+	})
 	http.ListenAndServe(":"+*port, nil)
 
 }
